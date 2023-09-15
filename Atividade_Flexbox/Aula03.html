@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula03 - Flexbox</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        /*Trabalhando com containeres*/
+        .container{
+            border: 1px solid black;
+            width: 90%;
+            height: 100px;
+            display: flex;
+            flex-flow: row wrap; 
+       
+        }
+        
+        /* PROPRIEDADES DOS ITENS*/
+        .container .item {
+            border: 1px solid red;
+            width: 20px;
+            height: 30px;
+            padding: 5px;
+        }
+        .grow_1{
+            flex-grow:1;
+        }
+        .grow_2{
+            flex-grow:2;
+        }
+        .grow_3{
+            flex-grow:3;
+        }
+        .basis_auto{
+            flex-grow:2;
+            flex-basis: auto;
+        }
+           
+        
+    </style>
+
+</head>
+
+<body>
+    <h1>Aula03- Flexbox - Itens</h1>
+    <div class="container justify-around aligh-center">
+    <div class="item basis_auto">1</div>
+    <div class="item grow_2">2</div>
+    <div class="item grow_3">3</div>
+   <!-- <div class="item grow_4">4</div>
+    <div class="item grow_5">5</div>-->
+
+</div>
+    
+</body>
+</html>
