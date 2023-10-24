@@ -7,7 +7,7 @@ body{
     width: 100%;
     height: 100vh;
     font-family: 'Poppins', sans-serif;
-    /* background: linear-gradient(-45deg,#5337d1,#9444c9,#d142be); */
+     background: linear-gradient(-45deg,#e357eb,#3129aa,#9723c5); 
 }
 
 #form{
@@ -20,6 +20,7 @@ body{
     padding: 60px;
     width: min-content;
     align-items: center;
+    color: #ffff;
     
 }
 .title{
