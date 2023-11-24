@@ -3,11 +3,7 @@ const app = express()
 const port = 3000
 const exphbs = require('express-handlebars')
 
-<<<<<<< HEAD
-
-=======
 //configure template handlebars
->>>>>>> cb1493bd21dc3371e9658925a752acf3ec521ac4
 app.engine('handlebars', exphbs.engine())
 app.set('view engine', 'handlebars')
 
@@ -43,4 +39,3 @@ res.render('home')
 app.listen(port, () => {
 console.log('Server Started')
 })
-
