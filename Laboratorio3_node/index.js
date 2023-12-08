@@ -2,14 +2,32 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const exphbs = require("express-handlebars");
-const { LocalStorage } = require("node-localstorage");
 
-// constructor function to create a storage directory inside our project for all our localStorage setItem.
-var localStorage = new LocalStorage("./scratch");
+const cookieParser = require("cookie-parser");
+const sessions = require("express-session");
 
-//Setting localStorage Item
-// localStorage.setItem('Name', 'Manish Mandal')
-// console.log(localStorage.getItem('Name'))
+// parsing the incoming data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//serving public file
+app.use(express.static(__dirname));
+
+// creating 24 hours from milliseconds
+const oneDay = 1000 * 60 * 60 * 24;
+
+//session middleware
+app.use(
+  sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized: true,
+    cookie: { maxAge: oneDay },
+    resave: false,
+  })
+);
+
+// cookie parser middleware
+app.use(cookieParser());
 
 //configure template handlebars
 app.engine("handlebars", exphbs.engine());
@@ -33,21 +51,22 @@ app.get("/users/add", (req, res) => {
 app.post("/users/save", (req, res) => {
   const name = req.body.name;
   const age = req.body.age;
-  const user = { name: name, age: age };
+  const message = `O usuário ${name} tem ${age} anos de idade`;
 
-  localStorage.setItem("name", `${name}`);
-  localStorage.setItem("age", `${age}`);
-
-  console.log(localStorage.getItem("name"));
-  console.log(localStorage.getItem("age"));
-
-  res.render("viewuser", { user: user, auth });
+  res.render("viewuser", { message, auth });
 });
 
 const usuario = {
   login: "teste",
   senha: 123,
 };
+
+//username and password
+// const login = 'user'
+// const senha = '123456'
+
+// a variable to save a session
+var session;
 
 app.get("/", (req, res) => {
   res.render("login");
@@ -58,17 +77,26 @@ var auth = false;
 app.post("/user/login", (req, res) => {
   const login = req.body.login;
   const senha = req.body.senha;
+
   let message = "";
 
   if (login == usuario.login && senha == usuario.senha) {
+    session = req.session;
+    session.userid = req.body.login;
+    console.log(session.userid);
     auth = true;
-    message = "Usuário logado com sucesso!";
+    message = `Usuário ${session.userid} logado com sucesso!`;
     res.render("home", { usuario: usuario, auth, message });
   } else {
     auth = false;
     message = "Usuário e/ou senha inválidos!";
     res.render("login", { auth, message });
   }
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
 });
 
 //pagina 404
